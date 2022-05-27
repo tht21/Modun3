@@ -21,43 +21,39 @@ Route::get('/', function () {
 Route::prefix('customer')->group(function () {
     Route::get('index', function () {
         // Hiển thị danh sách khách hàng
-        echo "Hiển thị danh sách khách hàng";
-    });
+        return view('modules.customer.index');
+    })->name('customer.index');
 
     Route::get('create', function () {
         // Hiển thị Form tạo khách hàng
-    });
+        return view('modules.customer.index');
+    })->name('customer.create');
 
     Route::post('store', function () {
         // Xử lý lưu dữ liệu tạo khách hàng thong qua phương thức POST từ form
-    });
+    })->name('customer.store');
 
-    Route::get('{id}/show', function () {
+    Route::get('show/{id}', function () {
         // Hiển thị thông tin chi tiết khách hàng có mã định danh id
-    });
+        return view('modules.customer.show');
+    })->name('customer.show');
 
-    Route::get('{id}/edit', function () {
+    Route::get('edit/{id?}', function () {
         // Hiển thị Form chỉnh sửa thông tin khách hàng
-    });
+        return view('modules.customer.edit');
+    })->name('customer.edit');
 
     Route::patch('{id}/update', function () {
         // xử lý lưu dữ liệu thông tin khách hàng được chỉnh sửa thông qua PATCH từ form
-    });
 
-    Route::delete('{id}', function () {
+    })->name('customer.update');
+
+    Route::delete('{id/destroy}', function () {
         // Xóa thông tin dữ liệu khách hàng
-    });
+        return view('modules.customer.index');
+    })->name('customer.destroy');
 });
-Route::get('/login', function () {
-    return view('login');
-});
-Route::post('/login', function (Illuminate\Http\Request $request) {
-//    dd($request);
-    if ($request->username == 'a' && $request->password == 'a') {
-        return 'thanh cong';
-    }
-    return 'sai roi ban oi';
-});
+
 Route::get('/calculator', function () {
     return view('calculator');
 });
@@ -66,4 +62,6 @@ Route::get('/dictionary', function () {
     return view('dictionary');
 });
 Route::post('/dictionary', [DictionnaryController::class, 'index'])->name('dictionary');
+
+
 

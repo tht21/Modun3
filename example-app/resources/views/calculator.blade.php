@@ -9,7 +9,7 @@
 </head>
 <body>
 <form method="post" action="{{'calculator'}}">
-    <p>@csrf</p>
+   @csrf
     <div class="login">
         <h2 style="color: green ;">Product Discount Calculator</h2>
         <p style="color: green"><b>Product Description :</b>
