@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories');
+        Schema::table('permissions', function (Blueprint $table) {
+            $table->string('keycode');
         });
     }
 
@@ -26,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('permissions', function (Blueprint $table) {
             //
         });
     }

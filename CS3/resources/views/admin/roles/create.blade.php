@@ -78,13 +78,7 @@
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="{{asset('admins/vendor/select2/dist/js/select2.min.js')}}"></script>
     <script src="{{asset('admins/product/add/add.js')}}"></script>
-    <script>
-        $('.checkbox_wrapper').on('click', function () {
-            $(this).parents('.card1').find('.checkbox_sub_permission').prop('checked', $(this).prop('checked'));
-        });
-
-    </script>
-
+    <script src="{{asset('admins/role/add/add.js')}}"></script>
 @endsection
 
 
