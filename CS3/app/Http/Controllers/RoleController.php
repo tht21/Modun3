@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
     private $role;
+    private $permission;
 
-    public function __construct(Role $role)
+    public function __construct(Role $role,Permission $permission)
     {
         $this->role = $role;
+        $this->permision=$permission;
     }
 
     /**
@@ -32,7 +35,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $permissions =  $this->permision->where('parent_id',0)->get();
+       // dd($permisions);
+       return view('admin.roles.create',compact('permissions'));
     }
 
     /**

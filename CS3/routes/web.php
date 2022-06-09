@@ -56,5 +56,7 @@ Route::prefix('/admin')->group(function () {
     Route::resource('roles', RoleController::class);
 
 });
-
+//Route::get('/test', function () {
+//    echo __('message.hello',['name'=>'admin']);
+//});
 
