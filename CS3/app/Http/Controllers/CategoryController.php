@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use App\Components\Recusive;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -18,11 +20,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-
-      // $categories = Category::get()->paginate(5);
-        $paginate = Category::paginate(5);
+        $this->authorize('view_category');
+        // $categories = Category::get()->paginate(5);
+        $paginate = Category::latest()->paginate(5);
         $categories = Category::all();
-        return view('admin.categories.index',compact('categories','paginate'));
+        return view('admin.categories.index', compact('categories', 'paginate'));
     }
 
     public function active($id)
@@ -44,9 +46,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create_category');
+        // $this->authorize('create', Category::class);
         $categories = Category::orderBy('name', 'ASC')->get();
         $recusives = new Recusive($categories);
-        $data = $recusives->showCategories($parent_id='');
+        $data = $recusives->showCategories($parent_id = '');
         // print_r($data->toArray());die;
 ////        foreach ($data as $value){
 ////            $data= $value->sub_categories->toArray();
@@ -67,8 +71,8 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-       // dd($request->all());
-        $input =[
+        // dd($request->all());
+        $input = [
             'name' => $request->name,
             'parent_id' => $request->parent_id,
             'status' => $request->status,
@@ -98,11 +102,12 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('edit_category');
         $data = Category::all();
         $recusives = new Recusive($data);
         $categories = Category::findOrFail($id);
         $data = $recusives->showCategories($categories->parent_id);
-        return view('admin.categories.edit', compact('categories','data'));
+        return view('admin.categories.edit', compact('categories', 'data'));
     }
 
     /**
@@ -133,6 +138,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+      $this->authorize('delete_category');
         Category::findOrFail($id)->delete();
         return redirect()->route('categories.index');
     }

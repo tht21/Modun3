@@ -12,9 +12,11 @@
             <div class="col-sm-12">
                 <div class="white-box">
                     <h3 class="box-title"></h3>
+
                     <a href="{{route('categories.create')}}">
                         <button class="text-muted">Thêm danh mục</button>
                     </a>
+
                     <div class="table-responsive">
                         <table class="table text-nowrap">
                             <thead>
@@ -43,7 +45,6 @@
                                                         class='far  fas fa-eye'></i></a></td>
                                         @endif
                                         <td>
-
                                             <a href="{{ route('categories.edit' , $category->id) }}">
                                                 <button style="border-radius:20px "
                                                         class="btn btn-sm btn-icon btn-secondary"><i

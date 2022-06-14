@@ -15,13 +15,22 @@
                 <form action="{{route('login.loginAdmin')}}" method="post" class="row g-3">
                     @csrf
                     <h4>Welcome Back</h4>
+
+
                     <div class="col-12">
+                        @if (Session::has('success'))
+                            <div class="alert alert-danger">{{session::get('success')}}</div>
+                        @endif
                         <label>Username</label>
                         <input type="text" name="email" class="form-control" placeholder="Username">
+                            @if (Session::has('error_phone'))
+                                <div class="alert alert-danger">{{session::get('error_phone')}}</div>
+                            @endif
                     </div>
                     <div class="col-12">
                         <label>Password</label>
                         <input type="text" name="password" class="form-control" placeholder="Password">
+
                     </div>
                     <div class="col-12">
                         <div class="form-check">

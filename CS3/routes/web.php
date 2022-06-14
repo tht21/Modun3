@@ -27,10 +27,12 @@ Route::get('/', function () {
 //    return view('admin.categories.index');
 //});
 //0
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/login', [LoginController::class, 'loginAdmin'])->name('login.loginAdmin');
 
-Route::prefix('/admin')->group(function () {
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => ['auth']
+], function () {
+
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::resource('categories', CategoryController::class);
     Route::prefix('/categories')->group(function () {
@@ -55,7 +57,10 @@ Route::prefix('/admin')->group(function () {
 
     Route::resource('roles', RoleController::class);
 
+
 });
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/login', [LoginController::class, 'loginAdmin'])->name('login.loginAdmin');
 //Route::get('/test', function () {
 //    echo __('message.hello',['name'=>'admin']);
 //});

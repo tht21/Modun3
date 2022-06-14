@@ -19,13 +19,15 @@
                         <span class="hide-menu">Profile</span>
                     </a>
                 </li>
+                @can('view_category')
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('categories.index')}}"
                        aria-expanded="false">
                         <i class="fa fa-table" aria-hidden="true"></i>
-                        <span class="hide-menu">Danh mục sản phẩm</span>
+                        <span class="hide-menu">Loại sản phẩm</span>
                     </a>
                 </li>
+                @endcan
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('brands.index')}}"
                        aria-expanded="false">
@@ -33,6 +35,7 @@
                         <span class="hide-menu">Thương hiệu sản phẩm</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('products.index')}}"
                        aria-expanded="false">
@@ -40,6 +43,7 @@
                         <span class="hide-menu">Sản phẩm</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('users.index')}}"
                        aria-expanded="false">

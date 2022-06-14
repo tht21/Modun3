@@ -61,11 +61,10 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
             ];
             $user = $this->user->create($dataUser);
-
+            $user->roles()->attach($request->role_id);
             DB::commit();
             return redirect()->route('users.index');
 //        dd($saveUser);
-            $user->roles()->attach($request->role_id);
         } catch (Exception $exception) {
             DB::rollBack();
             Log::error('Message :' . $exception->getMessage() . '--- Line: ' . $exception->getLine());
@@ -81,26 +80,9 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request,$id)
+    public function show(Request $request, $id)
     {
-        try {
-            DB::beginTransaction();
-            $dataUser = [
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ];
-            $user = $this->user->create($dataUser);
 
-            DB::commit();
-            return redirect()->route('users.index');
-//        dd($saveUser);
-            $user->roles()->attach($request->role_id);
-        } catch (Exception $exception) {
-            DB::rollBack();
-            Log::error('Message :' . $exception->getMessage() . '--- Line: ' . $exception->getLine());
-
-        }
     }
 
     /**
@@ -114,7 +96,7 @@ class UserController extends Controller
         $roles = $this->role->all();
         $users = $this->user->find($id);
         $rolesOfUser = $users->roles;
-   //     dd($rolesOfUser);
+        //   dd($rolesOfUser);
         return view('admin.users.edit', compact('roles', 'users', 'rolesOfUser'));
 
     }
@@ -135,12 +117,13 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ];
-            $user = $this->user->find($id)->update($dataUser);
-
+            $user = $this->user->find($id)->save($dataUser);
+//save xong tra ve doi tuong noi toiw phuong thuc trung gian
+            $user = $this->user->find($id);
+            $user->roles()->sync($request->role_id);
             DB::commit();
             return redirect()->route('users.index');
-//        dd($saveUser);
-            $user->roles()->sync($request->role_id);
+
         } catch (Exception $exception) {
             DB::rollBack();
             Log::error('Message :' . $exception->getMessage() . '--- Line: ' . $exception->getLine());
@@ -157,6 +140,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         $this->user->findOrFail($id)->delete();
-        return redirect()->route('products.index');
+        return redirect()->route('users.index');
     }
 }

@@ -34,6 +34,7 @@ trait StorageImageTrait
             'file_name' => $fileNameOrigin,
             'file_path' => Storage::url($filePath)
         ];
+
         return $dataUploadTrait;
     }
 

@@ -24,7 +24,7 @@
                                 <th class="border-top-0">Giá sản phẩm</th>
                                 <th class="border-top-0">Hình ảnh sản phẩm</th>
                                 <th class="border-top-0">Danh mục sản phẩm</th>
-                                <th class="border-top-0">Thương hiệu sản phẩm</th>
+
                                 <th class="border-top-0">Trạng thái</th>
                                 <th class="border-top-0">Action</th>
                             </tr>
@@ -42,7 +42,6 @@
                                         <td>{{$product->price}}</td>
                                         <td><img src="{{$product->image_path}}" height="100"width="100"></td>
                                         <td>{{$product->category->name}}</td>
-                                        <td>{{$product->brand_id}}</td>
                                         @if($product->status === 0)
                                             <td><a href="{{ route('products.unactive' , $product->id) }}"><i
                                                         class='far fa-eye-slash'></i></a></td>

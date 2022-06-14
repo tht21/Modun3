@@ -68,19 +68,6 @@
                                         <p style="color: red">{{($message)}}</p>
                                         @enderror
                                     </div>
-                                    {{--                            <div class="form-group mb-4">--}}
-                                    {{--                                <label class="col-sm-12">Thương hiệu</label>--}}
-                                    {{--                                <div class="col-sm-12 border">--}}
-                                    {{--                                    <select name='brand_id'--}}
-                                    {{--                                            class="form-select shadow-none  border-0 form-control-line">--}}
-                                    {{--                                        @foreach($brands as $key=>$brand)--}}
-                                    {{--                                            <option value="{{$brand->id}}">{{$brand->name}}</option>--}}
-                                    {{--                                        @endforeach--}}
-
-                                    {{--                                    </select>--}}
-                                    {{--                                </div>--}}
-                                    {{--                            </div>--}}
-
                                     <div class="form-group mb-4">
                                         <label class="col-sm-12">Nhập tags cho sản phẩm</label>
                                         <div class="col-sm-12 border">

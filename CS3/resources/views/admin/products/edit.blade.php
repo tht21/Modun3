@@ -31,7 +31,7 @@
                                         <div class="col-md-12 border ">
                                             <input name='price' type="text" placeholder="Giá sản phẩm"
                                                    class="form-control  border-0" name="example-email"
-                                                   id="example-email" value="{{number_format($products->price)}}">
+                                                   id="example-email" value="{{$products->price}}">
                                         </div>
                                     </div>
                                     <div class="form-group mb-4">

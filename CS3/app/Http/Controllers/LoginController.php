@@ -1,34 +1,43 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Login;
 use App\Http\Requests\StoreLoginRequest;
 use App\Http\Requests\UpdateLoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
 
-    public function index()
+    public function login()
     {
-       // dd(Hash::make(123456));
+        // dd(Hash::make(123456));
         return view('login');
     }
+
     public function loginAdmin(Request $request)
     {
+        //dd($request->all());
         $remember = $request->has('remember_me') ? true : false;
-        $credentials=[
+        $credentials = [
             'email' => $request->email,
             'password' => $request->password
         ];
+        $email = $request->email;
+        $password = $request->password;
 
-        if (Auth::attempt($credentials,$remember)) {
-           // dd(123);
+        $checkMail = User::where('email', $email)->take(1)->first();
+        if ($checkMail && Hash::check($request->password, $checkMail->password)) {
+            Auth::login($checkMail);
             return redirect()->route('admin.index');
-        }else{
-
+        } else {
+            Session::flash('error_phone', 'Đăng nhập không thành công');
+            return redirect()->back();
         }
     }
 }

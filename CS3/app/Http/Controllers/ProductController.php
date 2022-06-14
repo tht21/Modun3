@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use mysql_xdevapi\Exception;
+
 
 
 class ProductController extends Controller
@@ -38,7 +38,6 @@ class ProductController extends Controller
         $this->tag = $tag;
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -46,11 +45,22 @@ class ProductController extends Controller
      */
     public function index()
     {
-
         $products = $this->product->latest()->paginate(5);
+      //dd($products);
         return view('admin.products.index', compact('products'));
     }
 
+    public function active($id)
+    {
+        $this->product->findOrFail($id)->update(['status' => 0]);
+        return redirect()->route('products.index');
+    }
+
+    public function unactive($id)
+    {
+        $this->product->findOrFail($id)->update(['status' => 1]);
+        return redirect()->route('products.index');
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -72,6 +82,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+      //  dd($request->all());
         try {
             DB::beginTransaction();
             $dataProductCreate = [
@@ -83,14 +94,15 @@ class ProductController extends Controller
                 'status' => $request->status,
             ];
             $dataUploadImage = $this->storageUpload($request, 'image_path', 'product');
+              //dd($dataUploadImage);
 
 //        $fileName = $request->image_path->getClientOriginalName();
 //        $path = $request->file('image_path')->storeAs('public/product',$fileName);
             if (!empty($dataUploadImage)) {
                 $dataProductCreate['image_name'] = $dataUploadImage['file_name'];
                 $dataProductCreate['image_path'] = $dataUploadImage['file_path'];
-            }
 
+            }
             $product = $this->product->create($dataProductCreate);
 
             // Insert data to product_images
@@ -113,6 +125,7 @@ class ProductController extends Controller
             }
 
             $product->tags()->attach($tagIds);
+
             DB::commit();
             return redirect()->route('products.index');
         } catch (\Exception $e) {
@@ -142,6 +155,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('edit_product',$id);
         $products = $this->product->find($id);
         $categories = $this->getCategory($products->category_id);
         return view('admin.products.edit', compact('categories', 'products'));

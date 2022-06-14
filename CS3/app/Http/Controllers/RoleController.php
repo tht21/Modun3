@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+
+use mysql_xdevapi\Exception;
 
 class RoleController extends Controller
 {
     private $role;
     private $permission;
 
-    public function __construct(Role $role,Permission $permission)
+    public function __construct(Role $role, Permission $permission)
     {
         $this->role = $role;
-        $this->permision=$permission;
+        $this->permision = $permission;
     }
 
     /**
@@ -24,8 +28,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-       $roles = $this->role->paginate(10);
-        return view('admin.roles.index',compact('roles'));
+        $roles = $this->role->paginate(10);
+        return view('admin.roles.index', compact('roles'));
     }
 
     /**
@@ -35,9 +39,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permissions =  $this->permision->where('parent_id',0)->get();
-       // dd($permisions);
-       return view('admin.roles.create',compact('permissions'));
+        $permissions = $this->permision->where('parent_id', 0)->get();
+        // dd($permisions);
+        return view('admin.roles.create', compact('permissions'));
     }
 
     /**
@@ -48,7 +52,14 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $dataRole = [
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+        ];
+        $user = $this->role->create($dataRole);
+        $user->permissions()->attach($request->permission_id);
+        return redirect()->route('admin.roles.index');
     }
 
     /**
@@ -70,7 +81,11 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $permissions = $this->permision->where('parent_id', 0)->get();
+        $roles = $this->role->find($id);
+        //permissions trung gian model
+        $permissionsChecked = $roles->permissions;
+        return view('admin.roles.edit', compact('permissions', 'roles', 'permissionsChecked'));
     }
 
     /**
@@ -82,7 +97,23 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $dataRole = [
+                'name' => $request->name,
+                'displssadsay_name' => $request->display_name,
+            ];
+            $role = $this->role->find($id)->update($dataRole);
+            $role1 = $this->role->find($id);
+            $role1->permissions()->sync($request->permission_id);
+            //  dd($role1);
+            DB::commit();
+            return redirect()->route('roles.index');
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::error('Message :' . $exception->getMessage() . '--- Line: ' . $exception->getLine());
+
+        }
     }
 
     /**
