@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,13 +21,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.dashbroard');
-});
-//Route::get('/', function () {
-//    return view('admin.categories.index');
-//});
-//0
 
 Route::group([
     'prefix' => 'admin',
@@ -61,7 +55,10 @@ Route::group([
 });
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'loginAdmin'])->name('login.loginAdmin');
-//Route::get('/test', function () {
-//    echo __('message.hello',['name'=>'admin']);
-//});
+
+Route::group([
+    'prefix' => 'frontend',
+], function () {
+    Route::resource('home', HomeController::class);
+});
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Components\Recusive;
-
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
@@ -15,8 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
-
 
 
 class ProductController extends Controller
@@ -45,6 +43,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $this->authorize('view_product');
         $products = $this->product->latest()->paginate(5);
       //dd($products);
         return view('admin.products.index', compact('products'));
@@ -68,6 +67,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize('create_product');
         $categories = $this->getCategory($parentId = '');
         $data = $this->product->get();
 
@@ -228,6 +228,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete_product');
         $this->product->findOrFail($id)->delete();
         return redirect()->route('products.index');
     }

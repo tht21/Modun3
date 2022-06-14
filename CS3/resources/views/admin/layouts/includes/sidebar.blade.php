@@ -35,7 +35,7 @@
                         <span class="hide-menu">Thương hiệu sản phẩm</span>
                     </a>
                 </li>
-
+                @can('view_product')
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('products.index')}}"
                        aria-expanded="false">
@@ -43,7 +43,7 @@
                         <span class="hide-menu">Sản phẩm</span>
                     </a>
                 </li>
-
+                @endcan
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('users.index')}}"
                        aria-expanded="false">

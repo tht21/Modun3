@@ -28,9 +28,9 @@ class ProductPolicy
      * @param \App\Models\Product $product
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Product $product)
+    public function view(User $user)
     {
-        //
+        return $user->checkPermissionAccess('view_product');
     }
 
     /**
@@ -41,7 +41,7 @@ class ProductPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->checkPermissionAccess('create_product');
     }
 
     /**
@@ -71,7 +71,7 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product)
     {
-        //
+        return $user->checkPermissionAccess('delete_product');
     }
 
     /**
