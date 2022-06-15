@@ -27,11 +27,10 @@ class HomeController extends Controller
         $this->tag = $tag;
     }
     public function index(){
-        $categories= $this->category->orderBy('name', 'ASC')->get();
+
         //dd($categories);
-        $recusives = new Recusive($categories);
-        $data = $recusives->showCategories($parent_id = '');
-//        dd($data);
-        return view('frontend.index',compact('data'));
+        $category = $this->category->where('parent_id', 0)->get();
+        $product=$this->product->latest()->take(12)->get();
+        return view('frontend.index',compact('category','product'));
     }
 }

@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
     use HasFactory;
-//    public function sub_categories(){
-//        return $this->hasMany(self::class,'parent_id','id');
-//    }
+
     use SoftDeletes;
     protected $table = 'categories';
     protected $fillable = [
@@ -20,4 +18,7 @@ class Category extends Model
         'slug',
         'status'
     ];
+        public function sub_categories(){
+        return $this->hasMany(self::class,'parent_id','id');
+    }
 }
