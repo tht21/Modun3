@@ -122,8 +122,8 @@ class StaffController extends Controller
      */
     public function destroy($id)
     {
-        echo 123;
-//        $this->staff->findOrFail($id)->delete();
-//        return redirect()->route('staffs.index');
+      //  echo 123;
+        $this->staff->findOrFail($id)->delete();
+        return redirect()->route('staffs.index');
     }
 }
